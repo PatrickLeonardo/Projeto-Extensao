@@ -43,12 +43,11 @@
                 throw Error(data.status);
             }
             
-            console.log(data);
-            console.log(data.json());
             return data.json();
             
         }).then(update => {
             
+            console.log(update);
             const table = document.querySelector("table");
             
             Array.from(update).forEach( (evento) => {

@@ -68,6 +68,7 @@ app.get('/eventos_agendados', (_, res) => {
 
     } catch(err) {
         console.log(err);
+        res.status(404).json(err);
     }
 
 });
