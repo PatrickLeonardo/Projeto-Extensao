@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Novo Evento</title>
+        <link href="../css/novo_evento.css" rel="stylesheet">
+    </head>
+    
+    <body>
+        
+        <center>
+            
+            <h1>Cadastar novo Evento</h1>
+
+            <form>
+
+                <label>Nome do Evento:</label>
+                <input type="text" id="evento" value="">
+                <br><br>
+
+                <label>Local:</label>
+                <input type="text" id="local" value="">
+                <br><br>
+
+                <label>Data e Hora:</label>
+                <input type="datetime-local" id="data_hora" value="">
+                <br><br>
+                
+                <input type="reset" value="Limpar">
+                <input type="submit" id="submit" value="Cadastrar">
+
+            </form>
+
+        </center>
+
+    </body> 
+
+    <script>
+        
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", () => {
+
+            event.preventDefault();
+
+            const evento    = document.getElementById("evento").value;
+            const local     = document.getElementById("local").value;
+            let data_hora = document.getElementById("data_hora").value;
+            data_hora = data_hora.replace("T", " ") + ":00";
+            
+            const options = {
+                
+                method: 'POST',
+
+                headers: { 
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                
+                body: JSON.stringify({
+                    nome: evento,
+                    local: local,
+                    data_hora: data_hora,
+                }),
+            };
+
+            fetch('/novo_evento', options)
+            .then(data => {
+                
+                if(!data.ok) {
+                    
+                    throw Error(data.status);
+                    alert("Erro ao realizar cadastro, tente novamente...");
+                    
+                } else {
+                    
+                    form.reset(); 
+                    alert("Cadastro realizado com sucesso!");
+                    
+                }
+                
+            });
+            
+        });
+        
+    </script>
+
+</html>

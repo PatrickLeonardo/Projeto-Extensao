@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Eventos</title>
+        <link href="../css/eventos.css" rel="stylesheet">
+    </head>
+
+    <body>
+        
+        <center>
+
+            <h1>Eventos Agendados</h1>
+
+            <table>
+
+                <tr>
+                    <th id="th_id">ID</th>
+                    <th>Evento</th>
+                    <th>Local</th>
+                    <th>Data-Hora</th>
+                </tr>
+
+            </table>
+
+        </center>
+
+    </body>
+
+    <script>
+        
+        const options = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        };
+
+        fetch('/eventos_agendados')
+        .then(data => {
+            
+            if(!data.ok) {
+                throw Error(data.status);
+            }
+            
+            return data.json();
+            
+        }).then(update => {
+            
+            const table = document.querySelector("table");
+            
+            Array.from(update).forEach( (evento) => {
+                
+                evento.data_hora = evento.data_hora.replace("T", " ").replace(":00.000Z", " ");
+                
+                table.innerHTML = table.innerHTML += `
+                    <tr>
+                        <td>${evento.id}</td>
+                        <td>${evento.nome}</td>
+                        <td>${evento.local}</td>
+                        <td>${evento.data_hora}</td>
+                    </tr>
+                `
+                
+            });
+            
+        });
+        
+    </script>
+
+</html>
